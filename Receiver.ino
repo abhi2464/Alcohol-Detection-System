@@ -22,16 +22,13 @@ void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
   memcpy(&myData, incomingData, sizeof(myData));
   Serial.print("Bytes received: ");
   Serial.println(len);
-  // Serial.print("Char: ");
-  // Serial.println(myData.a);
+  
   Serial.print("Int: ");
   Serial.println(myData.b);
-  // Serial.print("Float: ");
-  // Serial.println(myData.c);
+  
   Serial.print("String: ");
   Serial.println(myData.d);
-  // Serial.print("Bool: ");
-  // Serial.println(myData.e);
+  
   if(myData.b==1)
   {
     digitalWrite(D4,HIGH);
