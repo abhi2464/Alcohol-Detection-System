@@ -2,7 +2,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <ESP8266WiFi.h>
 #include <espnow.h>
-// #include <Wifi.h>
 
 // RECEIVER MAC Address
 uint8_t broadcastAddress[] = {0xCC, 0x50, 0xE3, 0x3C, 0x16, 0x6E};
@@ -23,28 +22,9 @@ unsigned long timerDelay = 2000;  // send readings timer
 #define ir D4
 #define alco A0
 #define motor_pin D0
-const int alco_limit=700;
+const int alco_limit=400;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
-
-void run_motor()
-{
-  // digitalWrite(motor_pin,HIGH);
-  myData.b=1;
-  myData.d="Car Started";
-  if ((millis() - lastTime) > timerDelay)
-  {
-    esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
-    lastTime = millis();
-  }
-
-}
-
-void stop_motor()
-{
-  // digitalWrite(motor_pin,LOW);
-  
-}
 
 void OnDataSent(uint8_t *mac_addr, uint8_t status)
 {
@@ -114,23 +94,10 @@ void loop() {
       lcd.setCursor(0, 0);
       lcd.print("Car Stopped");
 
-      // stop_motor();
       myData.b=0;
       myData.d="Car Stopped";
       esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
-      // if (result == ESP_OK) 
-      // {
-      //   Serial.println("Sent with success");
-      // }
-      // else 
-      // {
-      //   Serial.println("Error sending the data");
-      // }    
-      // if ((millis() - lastTime) > timerDelay)
-      // {
-      //   esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
-      //   lastTime = millis();
-      // }
+      
     }
 
     else
@@ -144,23 +111,10 @@ void loop() {
       lcd.print("Save Drive");
 
       delay(1000);
-      // run_motor();
       myData.b=1;
       myData.d="Car Stopped";
       esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
-      // if (result == ESP_OK) 
-      // {
-      //   Serial.println("Sent with success");
-      // }
-      // else 
-      // {
-      //   Serial.println("Error sending the data");
-      // }
-      // if ((millis() - lastTime) > timerDelay)
-      // {
-      //   esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
-      //   lastTime = millis();
-      // }
+      
     }
 
     delay(1000);
@@ -172,19 +126,9 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("No Person");
-    // stop_motor();
     myData.b=0;
     myData.d="Car Stopped";
     esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
-    // if (result == ESP_OK) 
-    // {
-    //   Serial.println("Sent with success");
-    // }
-    // else 
-    // {
-    //   Serial.println("Error sending the data");
-    // }
-
   }
 
   delay(1000);
